@@ -12,12 +12,11 @@ import fr.diginamic.recensement.services.RechercheRegionsPlusPeuplees;
 import fr.diginamic.recensement.services.RechercheVillesPlusPeupleesDepartement;
 import fr.diginamic.recensement.services.RechercheVillesPlusPeupleesFrance;
 import fr.diginamic.recensement.services.RechercheVillesPlusPeupleesRegion;
+import fr.diginamic.recensement.services.exceptions.RecensementException;
 import fr.diginamic.recensement.utils.RecensementUtils;
 
 /**
  * Application de traitement des données de recensement de population
- * 
- * @param args
  */
 public class Application {
 
@@ -33,7 +32,7 @@ public class Application {
 		Recensement recensement = RecensementUtils.lire(filePath);
 
 		if (recensement == null) {
-			System.out.println("L'application doit s'arrétée en raison d'une erreur d'exécution.");
+			System.out.println("L'application doit s'arrêter en raison d'une erreur d'exécution.");
 			System.exit(-1);
 		}
 
@@ -53,43 +52,82 @@ public class Application {
 			// On exécute l'option correspondant au choix de l'utilisateur
 			switch (choix) {
 			case 1:
-				RecherchePopulationVilleService rechercheVille = new RecherchePopulationVilleService();
-				rechercheVille.traiter(recensement, scanner);
+				try{
+					RecherchePopulationVilleService rechercheVille = new RecherchePopulationVilleService();
+					rechercheVille.traiter(recensement, scanner);
+				} catch (RecensementException e) {
+					System.out.println("Exception : " + e.getMessage());
+				}
 				break;
 			case 2:
-				RecherchePopulationDepartementService rechercheDept = new RecherchePopulationDepartementService();
-				rechercheDept.traiter(recensement, scanner);
+				try{
+					RecherchePopulationDepartementService rechercheDept = new RecherchePopulationDepartementService();
+					rechercheDept.traiter(recensement, scanner);
+				} catch (RecensementException e) {
+					System.out.println("Exception : " + e.getMessage());
+				}
+
 				break;
 			case 3:
-				RecherchePopulationRegionService rechercheRegion = new RecherchePopulationRegionService();
-				rechercheRegion.traiter(recensement, scanner);
+				try {
+					RecherchePopulationRegionService rechercheRegion = new RecherchePopulationRegionService();
+					rechercheRegion.traiter(recensement, scanner);
+				} catch (RecensementException e){
+					System.out.println("Exception : " + e.getMessage());
+				}
+
 				break;
 			case 4:
-				RecherchePopulationBorneService recherchePopBorne = new RecherchePopulationBorneService();
-				recherchePopBorne.traiter(recensement, scanner);
+				try{
+					RecherchePopulationBorneService recherchePopBorne = new RecherchePopulationBorneService();
+					recherchePopBorne.traiter(recensement, scanner);
+				} catch (NumberFormatException | RecensementException e) {
+					System.out.println("Exception : " + e.getMessage());
+			}
 				break;
 			case 5:
-				RechercheVillesPlusPeupleesDepartement rechercheVillesPlusPeupleesDepartement = new RechercheVillesPlusPeupleesDepartement();
-				rechercheVillesPlusPeupleesDepartement.traiter(recensement, scanner);
+				try{
+					RechercheVillesPlusPeupleesDepartement rechercheVillesPlusPeupleesDepartement = new RechercheVillesPlusPeupleesDepartement();
+					rechercheVillesPlusPeupleesDepartement.traiter(recensement, scanner);
+				} catch (NumberFormatException | RecensementException e) {
+					System.out.println("Exception : " + e.getMessage());
+				}
 				break;
 			case 6:
-				RechercheVillesPlusPeupleesRegion rechercheVillesPlusPeupleesRegion = new RechercheVillesPlusPeupleesRegion();
-				rechercheVillesPlusPeupleesRegion.traiter(recensement, scanner);
+				try{
+					RechercheVillesPlusPeupleesRegion rechercheVillesPlusPeupleesRegion = new RechercheVillesPlusPeupleesRegion();
+					rechercheVillesPlusPeupleesRegion.traiter(recensement, scanner);
+				} catch (NumberFormatException | RecensementException e) {
+					System.out.println("Exception : " + e.getMessage());
+				}
+
 				break;
 			case 7:
-				RechercheDepartementsPlusPeuplees rechercherDepartementsPlusPeuplees = new RechercheDepartementsPlusPeuplees();
-				rechercherDepartementsPlusPeuplees.traiter(recensement, scanner);
+				try{
+					RechercheDepartementsPlusPeuplees rechercherDepartementsPlusPeuplees = new RechercheDepartementsPlusPeuplees();
+					rechercherDepartementsPlusPeuplees.traiter(recensement, scanner);
+				} catch (NumberFormatException e) {
+					System.out.println("Exception : " + e.getMessage());
+				}
+
 				break;
 			case 8:
-				RechercheRegionsPlusPeuplees rechercheRegionsPlusPeuplees = new RechercheRegionsPlusPeuplees();
-				rechercheRegionsPlusPeuplees.traiter(recensement, scanner);
+				try{
+					RechercheRegionsPlusPeuplees rechercheRegionsPlusPeuplees = new RechercheRegionsPlusPeuplees();
+					rechercheRegionsPlusPeuplees.traiter(recensement, scanner);
+				} catch (NumberFormatException e) {
+					System.out.println("Exception : " + e.getMessage());
+				}
 				break;
 			case 9:
-				RechercheVillesPlusPeupleesFrance rechercheVillesPlusPeupleesFrance = new RechercheVillesPlusPeupleesFrance();
-				rechercheVillesPlusPeupleesFrance.traiter(recensement, scanner);
+				try{
+					RechercheVillesPlusPeupleesFrance rechercheVillesPlusPeupleesFrance = new RechercheVillesPlusPeupleesFrance();
+					rechercheVillesPlusPeupleesFrance.traiter(recensement, scanner);
+				} catch (NumberFormatException e) {
+					System.out.println("Exception : " + e.getMessage());
+				}
 				break;
 			}
-
 		} while (choix != 99);
 
 		scanner.close();
